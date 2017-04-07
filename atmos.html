@@ -5,15 +5,15 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <title>Atmos</title>
 
-	<script type="text/javascript" src="http://atmosplay.com/webclient/webDemo/js/libraries/boomerang.js"></script>
-	<script type="text/javascript" src="http://atmosplay.com/webclient/webDemo/js/libraries/logmatic.min.js"></script>
-	<!--<script type="text/javascript" src="http://atmosplay.com/webclient/webDemo/js/libraries/logmatic-rum.min.js"></script>-->
-    <link rel="stylesheet" type="text/css" href="http://atmosplay.com/webclient/webDemo/main.min.css">
-    <script src="http://atmosplay.com/webclient/webDemo/js/logmatictimer.js"></script> 
+	<script type="text/javascript" src="http://atmosplay.com/webclient/js/libraries/boomerang.js"></script>
+	<script type="text/javascript" src="http://atmosplay.com/webclient/js/libraries/logmatic.min.js"></script>
+	<!--<script type="text/javascript" src="http://atmosplay.com/webclient/js/libraries/logmatic-rum.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="http://atmosplay.com/webclient/webdemo/main.min.css">
+    <script src="http://atmosplay.com/webclient/js/logmatictimer.js"></script> 
 	<!--<script>logmatic.init('bMxkuFnxSoqK1iZIIyvyAw'); BOOMR.init({});</script>-->
     <!-- start Mixpanel -->
     <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"http://atmosplay.com/webclient/webDemo/mixpanel.min.js".match(/^\/\//)?"http://atmosplay.com/webclient/webDemo/mixpanel.min.js":"http://atmosplay.com/webclient/webDemo/mixpanel.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"http://atmosplay.com/webclient/webdemo/mixpanel.min.js".match(/^\/\//)?"http://atmosplay.com/webclient/webdemo/mixpanel.min.js":"http://atmosplay.com/webclient/webdemo/mixpanel.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
 
 mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours...
 </script>
@@ -34,7 +34,7 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	<div id="startMenu">
 		<p id="gameTitle"></p>
 		<p id="subTitle"></p>
-		<p id="playButton">Play</p>
+		<p id="playButton" data-bind="click: playClick">Play</p>
     </div>
     <div id="shadowWrapper">
     </div>
@@ -43,8 +43,8 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
     <img id="tiltView" />-->
     <img id="infoButton" src="http://atmosplay.com/webclient/assets/images/install_now.png" data-bind="click: openMenuClick,class:infoBtnClasses"
     />
-    <!--<img id="streamSpinner" style="z-index: 999;position: absolute" data-bind="class:streamSpinnerClasses,if:showStream" src="http://atmosplay.com/webclient/assets/images/stream_spinner.gif"
-    />-->
+    <img id="streamSpinner" style="z-index: 999;position: absolute" data-bind="class:streamSpinnerClasses,if:showStream" src="http://atmosplay.com/webclient/assets/images/stream_spinner.gif"
+    />
     <video id="atmosPlayer" style="z-index: -1;display: none" webkit-playsinline playsinline autoplay>
     </video>
     <img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
@@ -69,7 +69,7 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
         parameter2: "value2"
     };
 </script>
-    <script src="http://atmosplay.com/webclient/webDemo/atmos.min.js"></script>
+    <script src="http://atmosplay.com/webclient/webdemo/atmos.min.js"></script>
 
 </body>
 

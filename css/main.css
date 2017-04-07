@@ -3,29 +3,25 @@
   width: 100%;
   height: 100%;
   background: black;
-  z-index: 9;
+  z-index: 99999999;
   opacity: 1.0;
   pointer-events: none;
 }
 
 body {
-  position: fixed;
   zoom: 1;
   margin: 0 auto;
   width: 100%;
   height: 100%;
   background-color: #000;
-  overflow-y: hidden;
 }
 
 #errorBody {
-  position: fixed;
   zoom: 1;
   margin: 0 auto;
   width: 100%;
   height: 100%;
   background-color: #FFF;
-  overflow-y: hidden;
 }
 
 #wrapper404 {
@@ -67,74 +63,21 @@ body {
 
 #atmosPlayer.landscape {
   transform: rotate(90deg)
-  }
-
-#endScreenImg {
-  position: fixed;
-  left: 0;
-  top: 0;
-  object-fit: cover;
-  max-height:100%;
-  max-width:200%;
 }
 
-#endScreenImg.landscape {
-  position: absolute;
-  transform: rotate(90deg);
-  transform-origin: bottom left;
-  width: 100vh;
-  height: 100vw;
-  margin-top: -100vw;
-  object-fit: cover;
-}
-
-#downloadBtOffImg {
-  position: absolute; 
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  overflow: auto;
-}
-
-#downloadBtOnImg {
-  position: absolute; 
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  overflow: auto;
-}
-
-#downloadBtOffImg.landscape {
-  transform: rotate(90deg);
-  left: -70%;
-  top:0%;
-}
-
-#downloadBtOnImg.landscape {
-  transform: rotate(90deg);
-  left: -70%;
-  top:0%;
-}
-
-#menuWrapper, #infoButton {
+#menuWrapper, #infoButton,#streamSpinner {
   opacity: 0.0;
   pointer-events: none;
 }
 
-#infoButton.inactive, #infoButton.active {
-  position: fixed;
+#infoButton.inactive, #infoButton.active ,#streamSpinner.inactive,#streamSpinner.active{
+  position: absolute;
   height: 7%;
   margin: 0px;
   z-index: 9;
 }
 
-#infoButton.landscape {
+#infoButton.landscape,#streamSpinner.landscape {
   transform: rotate(90deg);
 }
 
@@ -142,12 +85,24 @@ body {
   left: 5px;
 }
 #infoButton.inactive.leftLandscape {
-  left: -35px;bottom: 10%;
+  left: -50px;bottom: 10%;
+}
+#streamSpinner.inactive.left {
+  left: 5px;
+}
+#streamSpinner.inactive.leftLandscape {
+  left: -50px;bottom: 10%;
 }
 #infoButton.inactive.right{
   right: 5px;
 }
 #infoButton.inactive.rightLandscape {
+  right: -10%;
+}
+#streamSpinner.inactive.right {
+  right: 5px;
+}
+#streamSpinner.inactive.rightLandscape {
   right: -10%;
 }
 #infoButton.inactive.top{
@@ -156,21 +111,37 @@ body {
 #infoButton.inactive.topLandscape {
   top: 10%;
 }
+#streamSpinner.inactive.top{
+  top: 5px;
+}
+#streamSpinner.inactive.topLandscape {
+  top: 10%;
+}
 #infoButton.inactive.bottom {
   bottom: 5px;
 }
 #infoButton.inactive.bottomLandscape {
     bottom: 10%;
 }
-#infoButton.active.right {
+#streamSpinner.inactive.bottom {
+  bottom: 5px;
+}
+#streamSpinner.inactive.bottomLandscape {
+    bottom: 10%;
+}
+#infoButton.active.left,#streamSpinner.active.left {
+  left: -9999px;
+}
+
+#infoButton.active.right,#streamSpinner.active.right{
   right: -9999px;
 }
 
-#infoButton.active.top {
+#infoButton.active.top,#streamSpinner.active.top {
   top: -9999px;
 }
 
-#infoButton.active.bottom {
+#infoButton.active.bottom,#streamSpinner.active.bottom{
   bottom: -9999px;
 }
 
@@ -272,7 +243,7 @@ body {
   opacity: 0.0;
   width: 100%;
   height: 100%;
-  z-index: 8;
+  z-index: 99999;
   position: absolute;
   pointer-events: none;
 }
@@ -282,19 +253,19 @@ body {
   margin: auto;
   width: 310px;
   height: 170px;
-  z-index: 99999;
+  z-index: 9999999;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  position: fixed;
+  position: absolute;
   pointer-events: none;
   background-color: #fff;
   border-radius: 15px;
 }
 
 #startMenu.landscape {
-  transform : rotate(90deg);
+  -webkit-transform : rotate(90deg);
 }
 
 #gameIconWrapper {
@@ -324,25 +295,9 @@ body {
   max-width: 100%;
 }
 
-#gameTitle, #finishMessage {
+#gameTitle {
   position: relative;
   margin-top: 25px;
-  margin-bottom: 0px;
-  margin-left: 8px;
-  margin-right: 8px;
-  text-align: center;
-  font-size: 1.2em;
-  font-weight: bold;
-  font-family: 'Helvetica Neue', 'Roboto', helvetica, sans-serif;
-  color: #000;
-  word-wrap: break-word;
-  min-height: 1.3em;
-  max-height: 2.6em;
-}
-
-#rotateMessage {
-  position: relative;
-  margin-top: 60px;
   margin-bottom: 0px;
   margin-left: 8px;
   margin-right: 8px;
@@ -372,7 +327,7 @@ body {
   text-overflow: ellipsis;
 }
 
-#playButton, #downloadButton {
+#playButton {
   position: absolute;
   margin-top: 10px;
   margin-bottom: 0px;
@@ -443,7 +398,7 @@ body {
 }
 
 #bufferSpinner {
-  position: fixed;
+  position: absolute;
   margin: auto;
   top: 0px;
   left: 0px;
@@ -451,12 +406,9 @@ body {
   bottom: 0px;
   height: 8%;
   pointer-events: none;
-  z-index: 999999;
-  opacity: 0;
-}
-
-#bufferSpinner.on {
   animation: 3s rotate360 infinite linear;
+  z-index: 999999;
+  opacity: 1.0;
 }
 
 #installButton {
@@ -468,6 +420,19 @@ body {
   bottom: 0px;
   height: 100%;
 }
+
+/*#playButton {
+  opacity: 0.0;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  width: 70px;
+  height: 70px;
+}*/
 
 #gestureImage {
   opacity: 0.0;

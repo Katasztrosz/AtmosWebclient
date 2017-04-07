@@ -1,0 +1,56 @@
+<script src="mraid.js"></script>
+<!-- start Mixpanel -->
+<script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"http://atmosplay.com/webclient/adxperience/mixpanel.min.js".match(/^\/\//)?"http://atmosplay.com/webclient/adxperience/mixpanel.min.js":"http://atmosplay.com/webclient/adxperience/mixpanel.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
+
+mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours...
+</script>
+<!-- end Mixpanel -->
+
+<link rel="stylesheet" type="text/css" href="http://atmosplay.com/webclient/adxperience/main.min.css">
+<div id="starterWrapper">
+</div>
+<img id="bufferSpinner" src="http://atmosplay.com/webclient/assets/images/spinner.png" />
+<img id="gestureImage" />
+<img id="gestureHelperImage" />
+<img id="tiltView" />
+<img id="infoButton" src="http://atmosplay.com/webclient/assets/images/infobutton.png" data-bind="click: openMenuClick,class:infoBtnClasses"
+/>
+<img id="streamSpinner" style="z-index: 999;position: absolute" data-bind="class:streamSpinnerClasses,if:showStream" src="http://atmosplay.com/webclient/assets/images/stream_spinner.gif"
+/>
+<video id="atmosPlayer" style="z-index: -1;display: none" data-gameid="16" webkit-playsinline>
+</video>
+<img id="starterImg" data-bind="click: storeClick" src="https://s3-us-west-2.amazonaws.com/atmosplay/bubblebirds4/starter.jpg"
+    style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;" />
+
+<img id="spinnerImage" src="http://atmosplay.com/webclient/assets/images/spinner.png" />
+<audio id="bgMusicPlayer" type="audio/mpeg" loop></audio>
+
+<script>
+    function mraidIsReady()
+{
+	mraid.removeEventListener("ready", mraidIsReady);
+	mraid.setOrientationProperties({"allowOrientationChange":false, "forceOrientation":"portrait"});
+   
+}
+
+function doReadyCheck()
+{
+	if (mraid.getState() == 'loading')
+	{
+		mraid.addEventListener("ready", mraidIsReady);
+	}
+}
+
+doReadyCheck();
+
+</script>
+
+<script>
+    var clickUrl = "https://itunes.apple.com/us/app/bubble-birds-4-match-3-shooter/id731899888?mt=8"; // Replace it with your bidder
+    var eventParameters = {
+        parameter1: "value1",
+        parameter2: "value2"
+    };
+</script>
+<script src="http://atmosplay.com/webclient/adxperience/atmos.min.js"></script>
