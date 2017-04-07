@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Atmos</title>
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+  <script>
+
+    function getMobileOperatingSystem() {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if( userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i ) )
+      {
+        return 'iOS';
+
+      }
+      else if( userAgent.match( /Android/i ) )
+      {
+
+        return 'Android';
+      }
+      else
+      {
+        return 'unknown';
+      }
+    }
+
+    function goBack() {
+      if (getMobileOperatingSystem() == "iOS") {
+        window.location.href  = 'ios:goBackNatively';
+      } else if (getMobileOperatingSystem() == "Android") {
+        document.location  = 'android:goBackNatively';
+      } else {
+        window.location.href  = 'ios:goBackNatively';
+      }
+    }
+
+  </script>
+</head>
+<body id="errorBody">
+  <div id="wrapper404">
+    <img id="errorControllerImage" src="http://atmosplay.com/webclient/assets/images/404_controller.png" />
+    <p id="gameNotFoundLabel">GAME NOT FOUND</p>
+      <img id="errorBackImage" src="http://atmosplay.com/webclient/assets/images/404_back.png" onclick="goBack()"/>
+  </div>
+</body>
+</html>
