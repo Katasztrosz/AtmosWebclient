@@ -346,7 +346,7 @@ function openEndScreen(){
       //Runs when video is ready to play
       video.get(0).oncanplay = function () {
           console.log('oncanplay()');
-          document.location = "videoDidLoad://";
+
           if(!gestureHandler.isVideoStarted()){
             logmatic.log('Video can play', { 'ms since loaded': logTimer.getTime('loadingStart'), 'game ID': gestureHandler.gameID(), 'Seconds buffered': video.get(0).buffered.end(0)} );
           }
@@ -535,7 +535,7 @@ function openEndScreen(){
         $('#starterWrapper').fadeTo(10, 0.0);
         shadowWrapper.fadeTo(500, 0.5);
         gameTitle.get(0).innerHTML = self.game.title;
-        gameSubTitle.get(0).innerHTML = self.game.subTitle;
+        //gameSubTitle.get(0).innerHTML = self.game.subTitle;
         // finishMessage.get(0).innerHTML = self.game.finishMessage
         startMenu.fadeTo(500, 1.0);
       }
@@ -560,8 +560,8 @@ if (self.orientation === 0) {
                 "transform": "rotate(90deg)",
               })
           $("#startMenu").css({
-              "transform": "rotate(90deg)",
-          });
+               "transform": "rotate(90deg)",
+           });
 
           menuWrapperCSS.push("landscape");
           infBtnCSS.push("landscape");
@@ -639,8 +639,8 @@ if (self.orientation === 0) {
         self.orientation = self.game.orientation;
         globalOrientation = self.game.orientation;
         if (self.orientation === 0) {
-          // video.addClass('landscape');
-          // startMenu.addClass('landscape');
+          video.addClass('landscape');
+          startMenu.addClass('landscape');
           // finishMenu.addClass('landscape');
           $("#gameIconWrapper").addClass('landscape');
           $("#buttonsWrapper").addClass('landscape');
