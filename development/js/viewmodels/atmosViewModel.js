@@ -153,6 +153,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       //Starts video and music, Called by Store Click
       function play() {
         console.log('play()');
+        gestureHandler.initHammer();
         mixpanel.track("Game started", eventParameters);
         video.get(0).play();
         bgMusicPlayer.get(0).play();
@@ -168,10 +169,9 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
         } else {
           logmatic.log('Play Click', { 'Game time': logTimer.getTime("gameStart"), 'Current time': logTimer.startTimer("playClick"), 'game ID': gestureHandler.gameID() });
           console.log('StoreClick()');
-          bufferSpinner.addClass('on');
-          bufferSpinner.fadeTo(10, 1.0);
+          // bufferSpinner.addClass('on');
+          // bufferSpinner.fadeTo(10, 1.0);
           startMenu.remove();
-          gestureHandler.initHammer();
           play();
         }
       };
@@ -346,6 +346,10 @@ function openEndScreen(){
       //Runs when video is ready to play
       video.get(0).oncanplay = function () {
           console.log('oncanplay()');
+          gestureHandler.initHammer();
+          if (isAdViewable) {
+            self.storeClick();
+          }
           document.location = "videoDidLoad://";
           if(!gestureHandler.isVideoStarted()){
             logmatic.log('Video can play', { 'ms since loaded': logTimer.getTime('loadingStart'), 'game ID': gestureHandler.gameID(), 'Seconds buffered': video.get(0).buffered.end(0)} );
