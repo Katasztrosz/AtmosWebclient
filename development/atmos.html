@@ -35,11 +35,24 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	<div id="starterWrapper"></div>
 	<img id="bufferSpinner" src="http://atmosplay.com/webclient/assets/images/spinner.png" />
 
-	<div id="startMenu">
+	<!--<div id="startMenu">
 		<p id="gameTitle"></p>
 		<p id="subTitle"></p>
 		<p id="playButton" >Play</p>
+    </div>-->
+
+	<div id="startMenu">
+		<p id="gameTitle"> Jáccunk egy jót gyerekek! </p>
     </div>
+
+	<div id="handIconDiv">
+		<img id="handIcon" src="https://atmosplay.com/webclient/assets/images/hand_shadow.png"/>
+    </div>
+
+	<!--<div id="startMessageDiv">
+		<p id="startMessage"> Jáccunk egy jót gyerekek! </p>
+    </div>-->
+	
 
 	<!--<div id="finishMenu">
 		<p id="finishMessage">Completed!</p>
@@ -58,7 +71,7 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	<!--<img id="tiltView" />-->
 
 	<img id="infoButton" src="http://atmosplay.com/webclient/assets/images/install_now.png" data-bind="click: openMenuClick,class:infoBtnClasses"/>
-	<video id="atmosPlayer" style="z-index: -1;" webkit-playsinline playsinline autoplay>
+	<video id="atmosPlayer" style="z-index: -1;" webkit-playsinline playsinline>
 	</video>
 	<img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
 	/>
@@ -73,9 +86,11 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 </html>
 
 <script>
-	var endPic = "http://www.technocrazed.com/wp-content/uploads/2015/12/Landscape-wallpaper-7.jpg";
+	// var endPic = "http://www.technocrazed.com/wp-content/uploads/2015/12/Landscape-wallpaper-7.jpg";
 	var downloadBtOff = "https://adtrial.com/ad/default-download-off.png";
 	var downloadBtOn = "https://adtrial.com/ad/default-download-on.png";
+
+	var isAdViewable = false;
 
 	//var atmosVideoUrl = "${atmos_video_url}";
 
