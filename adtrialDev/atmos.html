@@ -35,11 +35,11 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	<div id="starterWrapper"></div>
 	<img id="bufferSpinner" src="http://atmosplay.com/webclient/assets/images/spinner.png" />
 
-	<!--<div id="startMenu">
+	<div id="startMenu">
 		<p id="gameTitle"></p>
 		<p id="subTitle"></p>
 		<p id="playButton" >Play</p>
-    </div>-->
+    </div>
 
 	<!--<div id="finishMenu">
 		<p id="finishMessage">Completed!</p>
@@ -60,8 +60,8 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	<img id="infoButton" src="http://atmosplay.com/webclient/assets/images/install_now.png" data-bind="click: openMenuClick,class:infoBtnClasses"/>
 	<video id="atmosPlayer" style="z-index: -1;" webkit-playsinline playsinline autoplay>
 	</video>
-	<!--<img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
-	/>-->
+	<img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
+	/>
 
 	<img id="endScreenImg" style="visibility:hidden"/>
 	<img id="downloadBtOffImg" style="visibility:hidden"/>
@@ -77,7 +77,7 @@ mixpanel.init("{ MIXPANEL_TOKEN }"); //You should replace this token with yours.
 	var downloadBtOff = "https://adtrial.com/ad/default-download-off.png";
 	var downloadBtOn = "https://adtrial.com/ad/default-download-on.png";
 
-	//var atmosVideoUrl = "${atmos_video_url}";
+	var atmosVideoUrl = "${atmos_video_url}";
 
     var clickUrl = "";                                     // Replace it with your bidder
     var gameIdentifier="";                                // Replace it with your bidder

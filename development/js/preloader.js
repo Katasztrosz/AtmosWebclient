@@ -5,6 +5,7 @@ define(['jquery', 'utils'],
         var deferred = $.Deferred();
         var video = $("#atmosPlayer");
         var starterImg = $("#starterImg");
+        var starterWrapper = $("#starterWrapper");
         var endScreenImg = $("#endScreenImg");
         var downloadBtOffImg = $("#downloadBtOffImg");
         var downloadBtOnImg = $("#downloadBtOnImg");
@@ -16,19 +17,27 @@ define(['jquery', 'utils'],
         $.getJSON(Utils.BASE_URL + gameid, function (allData) {
             logmatic.log('Preloader gets game done', { 'game': allData,  'game ID': gameid});
 
+            
             starterImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/load.jpg";
 
             $(starterImg).on('load', function () {
                 console.log("starterImg has shawn");
                 loadSrc("small", allData);              
             });
+
+            // loadSrc("small", allData);
+
             
-            // loadSrc("small", allData); 
-            
-            endScreenImg.get(0).src = endPic;
+            // endScreenImg.get(0).src = endPic;
             downloadBtOffImg.get(0).src = downloadBtOff;
             downloadBtOnImg.get(0).src = downloadBtOn;
             
+        });
+
+        $.get(Utils.BASE_URL + "get/endscreenImg/" + gameid, function (allData) {
+            endScreenImg.get(0).src = allData;   
+             console.log( $("#endScreenImg").attr('src'));
+            console.log( $("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null');
         });
 
         function getUrlParameter(sParam) {
@@ -48,7 +57,7 @@ define(['jquery', 'utils'],
 
         function loadSrc(param, allData) {
 
-            if (typeof atmosVideoUrl != 'undefined' && atmosVideoUrl != 0){
+            if (typeof atmosVideoUrl != 'undefined' && atmosVideoUrl != 0 && atmosVideoUrl !="${atmos_video_url}"){
                 video.get(0).src = atmosVideoUrl;
             }else{
                 video.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/videos/" + param + ".mp4";

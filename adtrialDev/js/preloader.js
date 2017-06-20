@@ -12,18 +12,20 @@ define(['jquery', 'utils'],
         var gameid = getUrlParameter('gameid') ? getUrlParameter('gameid') : gameIdentifier;
         // gameIdentifier is set in atmos.html
 
+        console.log(gameid);
+
         logmatic.log('Preloader starts', { 'gameid': gameid, 'loading started': logTimer.startTimer('loadingStart'), 'game ID': gameid});
         $.getJSON(Utils.BASE_URL + gameid, function (allData) {
             logmatic.log('Preloader gets game done', { 'game': allData,  'game ID': gameid});
 
-            // starterImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/load.jpg";
+            starterImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/load.jpg";
 
-            // $(starterImg).on('load', function () {
-            //     console.log("starterImg has shawn");
-            //     loadSrc("small", allData);              
-            // });
+            $(starterImg).on('load', function () {
+                console.log("starterImg has shawn");
+                loadSrc("small", allData);              
+            });
             
-            loadSrc("small", allData); 
+            // loadSrc("small", allData); 
             
             endScreenImg.get(0).src = endPic;
             downloadBtOffImg.get(0).src = downloadBtOff;

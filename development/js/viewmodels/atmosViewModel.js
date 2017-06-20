@@ -17,7 +17,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       downloadBtOnImg = $("#downloadBtOnImg"),
       installButton = $("#installButton"),
       bufferSpinner = $("#bufferSpinner"),
-      shadowWrapper = $("#shadowWrapper"),
+      // shadowWrapper = $("#shadowWrapper"),
       body = $("body"),
       playButton = $("#playButton"),
       windowHeight = 0,
@@ -94,9 +94,45 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       }
     }
 
+    function reduceInstallBtn() {
+      $("#infoButton").animate({height: '7%'}, 
+      {
+       duration: 1000,
+       complete: function(){
+         setTimeout(function() {growInstallBtn();},2000) ;
+      }
+      });
+    }
+
+    function growInstallBtn() {
+      $("#infoButton").animate({height: '9%'}, 
+      {
+       duration: 700,
+       complete: function(){
+           reduceInstallBtn()
+        }
+      });
+    }
+
+
+    function animateHandIcon() {
+      $("#handIcon").animate({
+        left: '60%'
+      }, {
+       duration: 2000,
+       complete: function() {
+           $("#handIcon").css("left", "-10%");
+           animateHandIcon();
+        }
+          
+      });
+    }
+
     return function atmosViewModel() {
       console.log("atmosViewModel()");
       var self = this;
+
+      animateHandIcon();
 
       self.game = {
         title: ko.observable(),
@@ -153,25 +189,25 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       //Starts video and music, Called by Store Click
       function play() {
         console.log('play()');
+        // gestureHandler.initHammer();
         mixpanel.track("Game started", eventParameters);
         video.get(0).play();
         bgMusicPlayer.get(0).play();
-        gestureHandler.isVideoPlaying(true);
-        gestureHandler.isVideoStarted(false);
+        gestureHandler.isPaused(false);
       }
 
       //Called when strat screen is tapped or video is finished
       self.storeClick = function () {
         if (gestureHandler.isVideoCompleted()) {
-          // openEndScreen();
-          openStore();
+          openEndScreen();
+          //openStore();
         } else {
           logmatic.log('Play Click', { 'Game time': logTimer.getTime("gameStart"), 'Current time': logTimer.startTimer("playClick"), 'game ID': gestureHandler.gameID() });
           console.log('StoreClick()');
-          bufferSpinner.addClass('on');
-          bufferSpinner.fadeTo(10, 1.0);
-          startMenu.remove();
-          gestureHandler.initHammer();
+          // bufferSpinner.addClass('on');
+          // bufferSpinner.fadeTo(10, 1.0);
+          startMenu.remove();    
+          // onLandingPageOpen();
           play();
         }
       };
@@ -224,42 +260,46 @@ function openEndScreen(){
         logmatic.log('openEndScreen', { 'Game time': logTimer.getTime('gameStart'), 'game ID': gestureHandler.gameID() });
 
         hideInfoMenu();
-        
-                  if(endPic==0){
-                      showFinishMenu();
+        console.log( $("#endScreenImg").attr('src'));
+                  if($("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null'){
+                      openStore();
                   }else{    
                       console.log("done");
                       endScreenImg.get(0).style.visibility = 'visible';
                       downloadBtOffImg.css({visibility: 'visible'});
                       $(video).remove();
-                      downloadBtOffImg.on('mousedown touchstart', function(event) {
-                          downloadBtOnImg.css({visibility: 'visible'});
-                          downloadBtOffImg.css({visibility: 'hidden'});
-                      });
-                      downloadBtOffImg.on('click', function(event) {
-                          openStore();
-                      });
-                      downloadBtOnImg.on('mouseup touchend click', function(event) {
-                          openStore();
-                      });
+                      setTimeout(function(){
+                        downloadBtOffImg.on('mousedown touchstart', function(event) {
+                          console.log('touchstart on off');
+                            downloadBtOnImg.css({visibility: 'visible'});
+                            downloadBtOffImg.css({visibility: 'hidden'});
+                        });
+                        downloadBtOffImg.on('click', function(event) {
+                          console.log('click on off');
+                            openStore();
+                        });
+                        downloadBtOnImg.on('mouseup touchend click', function(event) {
+                          console.log('touchend on on');
+                            openStore();
+                        });
 
-                      body.on('mouseup touchend', function(event) {
-                        downloadBtOffImg.css({visibility: 'visible'});
-                        downloadBtOnImg.css({visibility: 'hidden'});
-                      })
+                        body.on('mouseup touchend', function(event) {
+                          console.log('touchend on body');
+                          downloadBtOffImg.css({visibility: 'visible'});
+                          downloadBtOnImg.css({visibility: 'hidden'});
+                        })
 
-                      var endTime = new Date();
-                      var timeDiff = endTime - startTime;
-                      timeDiff /= 1000;
-                      var curtime = video.get(0).currentTime;
-                      var duration = video.get(0).duration;
-                      var ratio = curtime / duration * 100;
-                      eventParameters.isGameStarted = gestureHandler.isVideoStarted();
-                      eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
-                      eventParameters.gameplayPercentage = Math.round(ratio);
-                      mixpanel.track("End screen", eventParameters);
-
-                      $(video).remove();                    
+                        var endTime = new Date();
+                        var timeDiff = endTime - startTime;
+                        timeDiff /= 1000;
+                        var curtime = video.get(0).currentTime;
+                        var duration = video.get(0).duration;
+                        var ratio = curtime / duration * 100;
+                        eventParameters.isGameStarted = gestureHandler.isVideoStarted();
+                        eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
+                        eventParameters.gameplayPercentage = Math.round(ratio);
+                        mixpanel.track("End screen", eventParameters);          
+                  },500);                   
                   }
           
         
@@ -269,7 +309,7 @@ function openEndScreen(){
         console.log('showFinishMenu()');
         gestureHandler.disableHammer();
         finishMenu.fadeTo(50, 1.0);
-        shadowWrapper.fadeTo(500, 0.5); 
+        // shadowWrapper.fadeTo(500, 0.5); 
         setTimeout(function(){
           document.body.addEventListener('click',  function() { openStore();}); 
           document.body.addEventListener('touchstart',  function() { openStore();});       
@@ -304,9 +344,9 @@ function openEndScreen(){
       };
 
       gestureHandler.actualIndex.subscribe(function(e){
-       bufferSpinner.removeClass('on');
-       bufferSpinner.fadeTo(0, 0.0);
-       //Doesn't run first time, just when the video has started
+      //  bufferSpinner.removeClass('on');
+      //  bufferSpinner.stop().fadeTo(0, 0.0);
+      //  Doesn't run first time, just when the video has started
         if (gestureHandler.isVideoStarted() && video.get(0).currentTime * 1000 > 100) {
           
           if(gestureHandler.isPaused()){
@@ -315,7 +355,6 @@ function openEndScreen(){
           }
 
           gestureHandler.isPaused(false);
-          gestureHandler.isVideoPlaying(true);
 
           var d = new Date();    
           reactionSum += (d.getTime()-gestureHandler.handleGestureTime);
@@ -336,8 +375,6 @@ function openEndScreen(){
             //After the final gesture the video plays till the end, than we can open the Store with a storeClick
             video.get(0).play();
             logmatic.log('Video play()', { 'current_time': logTimer.getTime()});
-            gestureHandler.isPaused(false);
-            gestureHandler.isVideoPlaying(true);
             
           }
         }
@@ -346,7 +383,12 @@ function openEndScreen(){
       //Runs when video is ready to play
       video.get(0).oncanplay = function () {
           console.log('oncanplay()');
-          document.location = "videoDidLoad://";
+          gestureHandler.initHammer();
+          if (isAdViewable) {
+            self.storeClick();
+          }
+          // document.location = "videoDidLoad://";
+
           if(!gestureHandler.isVideoStarted()){
             logmatic.log('Video can play', { 'ms since loaded': logTimer.getTime('loadingStart'), 'game ID': gestureHandler.gameID(), 'Seconds buffered': video.get(0).buffered.end(0)} );
           }
@@ -354,6 +396,7 @@ function openEndScreen(){
 
       //Runs when video is playing
       video.get(0).onplay = function () {
+        gestureHandler.isPaused(false);
         canPlay();
       };
 
@@ -385,8 +428,8 @@ function openEndScreen(){
       video.get(0).onended = function () {
         logmatic.log('Video on ended', { 'current_time': logTimer.getTime('gameStart'), 'game ID': gestureHandler.gameID()});
         gestureHandler.isVideoCompleted(true);
-        // openEndScreen();
-        openStore();
+        openEndScreen();
+        //openStore();
         hideInfoMenu();
         bgMusicPlayer.get(0).pause();
         $("#starterImg").css({
@@ -515,9 +558,8 @@ function openEndScreen(){
         newFrameElm.parentNode.removeChild(newFrameElm);
     }
 
-    function calliOSFunction(){
+    function didFinishLoad(){
         var url = "atmos://didFinishLoad";
-
         var rootElm = document.documentElement;
         var newFrameElm = document.createElement("IFRAME");
         newFrameElm.setAttribute("src",url);
@@ -529,21 +571,19 @@ function openEndScreen(){
 
       function showStartMenu() {
         console.log("showStartMenu()");
-        if (self.opSystem === self.OP_IOS) {
-          calliOSFunction();
-        }
+        // didFinishLoad();
         $('#starterWrapper').fadeTo(10, 0.0);
-        shadowWrapper.fadeTo(500, 0.5);
+        // shadowWrapper.fadeTo(500, 0.75);
         gameTitle.get(0).innerHTML = self.game.title;
-        gameSubTitle.get(0).innerHTML = self.game.subTitle;
+        // gameSubTitle.get(0).innerHTML = self.game.subTitle;
         // finishMessage.get(0).innerHTML = self.game.finishMessage
         startMenu.fadeTo(500, 1.0);
       }
 
       function hidePlayMenu() {
-        shadowWrapper.fadeTo(50, 0);
-        bufferSpinner.removeClass('on');
-        bufferSpinner.stop().fadeTo(0, 0.0);
+        // shadowWrapper.fadeTo(50, 0);
+        // bufferSpinner.removeClass('on');
+        // bufferSpinner.stop().fadeTo(0, 0.0);
         $("#starterImg").remove();
       }
 
@@ -554,14 +594,14 @@ function openEndScreen(){
         var downloadBtnCSS = ["inactive"];
         var infBtnCSS = ["inactive"];
 
-if (self.orientation === 0) {
+        if (self.orientation === 0) {
 
-          $("#atmosPlayer").css({
-                "transform": "rotate(90deg)",
-              })
-          $("#startMenu").css({
-              "transform": "rotate(90deg)",
-          });
+          // $("#atmosPlayer").css({
+          //       "transform": "rotate(90deg)",
+          //     })
+          // $("#startMenu").css({
+          //     "transform": "rotate(90deg)",
+          // });
 
           menuWrapperCSS.push("landscape");
           infBtnCSS.push("landscape");
@@ -614,6 +654,7 @@ if (self.orientation === 0) {
 
       var showInfoMenu = function () {
         $("#infoButton").fadeTo(500, 1.0);
+        growInstallBtn();
         $("#menuWrapper").stop().fadeTo(500, 0.0);
         $("#infoButton").css({
           'pointer-events': 'auto'
@@ -639,8 +680,8 @@ if (self.orientation === 0) {
         self.orientation = self.game.orientation;
         globalOrientation = self.game.orientation;
         if (self.orientation === 0) {
-          // video.addClass('landscape');
-          // startMenu.addClass('landscape');
+          video.addClass('landscape');
+          startMenu.addClass('landscape');
           // finishMenu.addClass('landscape');
           $("#gameIconWrapper").addClass('landscape');
           $("#buttonsWrapper").addClass('landscape');
