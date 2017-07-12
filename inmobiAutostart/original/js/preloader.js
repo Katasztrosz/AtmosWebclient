@@ -58,16 +58,16 @@ define(['jquery', 'utils'],
 
         function loadSrc(param, allData) {
 
-            if (typeof atmosVideoUrl != 'undefined' && atmosVideoUrl != 0 && atmosVideoUrl !="${atmos_video_url}"){
-                video.get(0).src = atmosVideoUrl;
-            }else{
-                video.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/videos/" + param + ".mp4";
-            }
+            // if (typeof atmosVideoUrl != 'undefined' && atmosVideoUrl != 0 && atmosVideoUrl !="${atmos_video_url}"){
+            //     video.get(0).src = atmosVideoUrl;
+            // }else{
+            //     video.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/videos/" + param + ".mp4";
+            // }
              
              console.log("Video source loaded: " + video.get(0).src);
              video.get(0).pause();               //pauses autoplay video
              console.log("autoplay is paused");
-             bgMusicPlayer.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/sound/bg.mp3";
+            //  bgMusicPlayer.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/sound/bg.mp3";
              deferred.resolve(allData);
         };
 

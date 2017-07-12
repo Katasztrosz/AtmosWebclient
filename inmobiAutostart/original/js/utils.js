@@ -9,9 +9,9 @@ function(ko) {
       self.GESTURE_LOADING_TIME = 500;
       self.SKIP_CORRENCT_ENDTIME_SUPPORTER = 100;
       self.GESTURE_IMAGE_BASE_URL = "https://atmosplay.com/webclient/assets/images/gestures/";
-      self.IMAGE_BASE_URL = "https://atmosplay.com/webclient/assets/images/";
+      self.IMAGE_BASE_URL = "https://adcdn.zplayads.com/assets/images/";
       self.BASE_URL = self.ENDPOINT + "game/";
-      self.VIDEO_BASE_URL = "https://demos.atmosplay.com/";
+      self.VIDEO_BASE_URL = "https://adcdn.zplayads.com/assets/";
       // self.VIDEO_BASE_URL = "https://s3.eu-central-1.amazonaws.com/atmosplay-frankfurt/";
       // self.VIDEO_BASE_URL = "https://storage.googleapis.com/atmosplay/";
       // self.VIDEO_BASE_URL = "https://s3-us-west-2.amazonaws.com/atmosplay/";

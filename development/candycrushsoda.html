@@ -111,14 +111,14 @@ function mraidViewableChange(isViewable) {
 	if (isViewable) {
      	window.mraid.removeEventListener("viewableChange",mraidViewableChange);
      	isAdViewable = true;
-        // startAd();
+        startAd();
      }
 }
 
 function checkMraidViewableState() {
 	if (window.mraid.isViewable()) {
         isAdViewable = true;
-        // startAd();
+        startAd();
 	} else {
 		window.mraid.addEventListener("viewableChange",mraidViewableChange)
 	}

@@ -207,7 +207,6 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
           // bufferSpinner.addClass('on');
           // bufferSpinner.fadeTo(10, 1.0);
           startMenu.remove();    
-          // onLandingPageOpen();
           play();
         }
       };
@@ -217,6 +216,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       }
 
       function openStore() {
+        onLandingPageOpen();
         console.log("openStore()");
         logmatic.log('Open store', { 'Game time': logTimer.getTime('gameStart'), 'store_link': self.game.appStoreLink, 'game ID': gestureHandler.gameID() });
         isStoreClick = true;
