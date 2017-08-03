@@ -17,7 +17,7 @@ define(['jquery', 'utils'],
             starterImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/load.jpg";
             loadSrc("small", allData);              
 
-            endScreenImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/endscreen.jpg";
+            //endScreenImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/endscreen.jpg";
             // loadSrc("small", allData);
 
             
@@ -26,12 +26,6 @@ define(['jquery', 'utils'],
             downloadBtOnImg.get(0).src = downloadBtOn;
             
         });
-
-        // $.get(Utils.BASE_URL + "get/endscreenImg/" + gameid, function (allData) {
-        //     endScreenImg.get(0).src = allData;   
-        //      console.log( $("#endScreenImg").attr('src'));
-        //     console.log( $("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null');
-        // });
 
         function getUrlParameter(sParam) {
             var sPageURL = decodeURIComponent(window.location.search.substring(1)),

@@ -10,7 +10,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       finishMessage = $("#finishMessage");
       gameSubTitle = $("#subTitle"),
       storeImage = $("#storeImage"),
-      endScreenImg = $("#endScreenImg"),
+      // endScreenImg = $("#endScreenImg"),
       downloadBtOffImg = $("#downloadBtOffImg"),
       downloadBtOnImg = $("#downloadBtOnImg"),
       installButton = $("#installButton"),
@@ -205,55 +205,58 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       }
 
 function openEndScreen(){
-        console.log("openEndScreen()");
-        console.log( $("#endScreenImg").attr('src'));
-        if($("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null'){
-            openStore();
-        }else{    
-            console.log("done");
-            endScreenImg.get(0).style.visibility = 'visible';
-            downloadBtOffImg.css({visibility: 'visible'});
-            $(video).remove();
-            setTimeout(function(){
-              downloadBtOffImg.on('mousedown touchstart', function(event) {
-                console.log('touchstart on off');
-                  downloadBtOnImg.css({visibility: 'visible'});
-                  downloadBtOffImg.css({visibility: 'hidden'});
-              });
-              downloadBtOffImg.on('click', function(event) {
-                console.log('click on off');
-                  openStore();
-              });
-              downloadBtOnImg.on('mouseup touchend click', function(event) {
-                console.log('touchend on on');
-                  openStore();
-              });
+        if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
+          webkit.messageHandlers.video.postMessage("video_did_end_playing");
+        } else if (self.opSystem === self.OP_ANDROID) {
+          window.PlayableAds.mediationEnd();
+        } 
+        // console.log("openEndScreen()");
+        // console.log( $("#endScreenImg").attr('src'));
+        // if($("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null'){
+        //     openStore();
+        // }else{    
+        //     console.log("done");
+        //     endScreenImg.get(0).style.visibility = 'visible';
+        //     downloadBtOffImg.css({visibility: 'visible'});
+        //     $(video).remove();
+        //     setTimeout(function(){
+        //       downloadBtOffImg.on('mousedown touchstart', function(event) {
+        //         console.log('touchstart on off');
+        //           downloadBtOnImg.css({visibility: 'visible'});
+        //           downloadBtOffImg.css({visibility: 'hidden'});
+        //       });
+        //       downloadBtOffImg.on('click', function(event) {
+        //         console.log('click on off');
+        //           openStore();
+        //       });
+        //       downloadBtOnImg.on('mouseup touchend click', function(event) {
+        //         console.log('touchend on on');
+        //           openStore();
+        //       });
 
-              body.on('mouseup touchend', function(event) {
-                console.log('touchend on body');
-                downloadBtOffImg.css({visibility: 'visible'});
-                downloadBtOnImg.css({visibility: 'hidden'});
-              })
+        //       body.on('mouseup touchend', function(event) {
+        //         console.log('touchend on body');
+        //         downloadBtOffImg.css({visibility: 'visible'});
+        //         downloadBtOnImg.css({visibility: 'hidden'});
+        //       })
 
-              var endTime = new Date();
-              var timeDiff = endTime - startTime;
-              timeDiff /= 1000;
-              var curtime = video.get(0).currentTime;
-              var duration = video.get(0).duration;
-              var ratio = curtime / duration * 100;
-              eventParameters.isGameStarted = gestureHandler.isVideoStarted();
-              eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
-              eventParameters.gameplayPercentage = Math.round(ratio);
-              mixpanel.track("End screen", eventParameters);
-              if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
-                webkit.messageHandlers.video.postMessage("video_did_end_playing");
-              } else if (self.opSystem === self.OP_ANDROID) {
-                window.PlayableAds.mediationEnd();
-              }          
-        },500);                   
-        }
-          
-        
+        //       var endTime = new Date();
+        //       var timeDiff = endTime - startTime;
+        //       timeDiff /= 1000;
+        //       var curtime = video.get(0).currentTime;
+        //       var duration = video.get(0).duration;
+        //       var ratio = curtime / duration * 100;
+        //       eventParameters.isGameStarted = gestureHandler.isVideoStarted();
+        //       eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
+        //       eventParameters.gameplayPercentage = Math.round(ratio);
+        //       mixpanel.track("End screen", eventParameters);
+        //       if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
+        //         webkit.messageHandlers.video.postMessage("video_did_end_playing");
+        //       } else if (self.opSystem === self.OP_ANDROID) {
+        //         window.PlayableAds.mediationEnd();
+        //       }          
+        // },500);                   
+        // }
       }
 
       function showFinishMenu(){
@@ -589,7 +592,7 @@ function openEndScreen(){
           // finishMenu.addClass('landscape');
           $("#storeButtonDiv").addClass('landscape');
           $("#installButtonDiv").addClass('landscape');
-          $("#endScreenImg").addClass('landscape');
+          // $("#endScreenImg").addClass('landscape');
           $("#downloadBtOffImg").addClass('landscape');
           $("#downloadBtOnImg").addClass('landscape');
         };
