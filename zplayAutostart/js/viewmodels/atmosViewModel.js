@@ -245,9 +245,9 @@ function openEndScreen(){
               eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
               eventParameters.gameplayPercentage = Math.round(ratio);
               mixpanel.track("End screen", eventParameters);
-              if (self.opSystem === self.OP_IOS) {
+              if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
                 webkit.messageHandlers.video.postMessage("video_did_end_playing");
-              } else {
+              } else if (self.opSystem === self.OP_ANDROID) {
                 window.PlayableAds.mediationEnd();
               }          
         },500);                   
@@ -327,9 +327,9 @@ function openEndScreen(){
       //Runs when video is ready to play
       video.get(0).oncanplay = function () {
           viewDidLoad = true;
-          if (self.opSystem === self.OP_IOS) {
+          if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
             webkit.messageHandlers.video.postMessage("video_did_end_loading");
-          } else {
+          } else if (self.opSystem === self.OP_ANDROID) {
               window.PlayableAds.mediationEndLoading();
           }
           
@@ -350,9 +350,9 @@ function openEndScreen(){
         gestureHandler.isPaused(false);
         console.log("onplay: " + video.get(0).currentTime * 1000);
         if(!gestureHandler.isVideoStarted()){
-          if (self.opSystem === self.OP_IOS) {
+          if (self.opSystem === self.OP_IOS && typeof webkit !== 'undefined') {
               webkit.messageHandlers.video.postMessage("video_did_start_playing");
-          } else {
+          } else if (self.opSystem === self.OP_ANDROID) {
               window.PlayableAds.mediationStart();
           }
         }
@@ -362,15 +362,12 @@ function openEndScreen(){
       //Runs when video is playing
       function canPlay() {
         console.log('canPlay()');
-        if(!gestureHandler.isVideoStarted()){
-          // log('Video is playing', { 'ms to play the video after play click': logTimer.getTime('playClick'), 'Game time': logTimer.getTime('gameStart'), 'game ID': gestureHandler.gameID()} );
-        }
 
         if (video.get(0).currentTime * 1000 > 0) {
           //Runs on the very first gesture, sets the first timeout till the first attack time
           if (gestureHandler.currentGestureIndex() === 0 && gestureHandler.isVideoStarted() === false) {
             hidePlayMenu();
-            video.get(0).pause();
+            //video.get(0).pause();
             //console.log('set Timeout till first attack: ' + logTimer.getTime('loadingStart'));
             
             var index = gestureHandler.currentTimerIndex();
@@ -463,9 +460,11 @@ function openEndScreen(){
           }
         }
 
+        $('#starterWrapper').fadeTo(10, 0.0);
+        // $("#starterImg").remove();
         initGestureHandler();
         initMenu();
-        video.get(0).play();
+        //play();
       };
 
       function getSizeForResoultion() {

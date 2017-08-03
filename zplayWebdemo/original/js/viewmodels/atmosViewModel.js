@@ -3,7 +3,9 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
 
     var video = $("#atmosPlayer"),
       bgMusicPlayer = $("#bgMusicPlayer"),
+      startMenu = $("#startMenu"),
       starterImg = $("#starterImg"),
+      //finishMenu = $("#finishMenu"),
       rotateMenu = $("#rotateMenu"),
       gameIcon = $("#gameIcon"),
       gameTitle = $("#gameTitle"),
@@ -15,6 +17,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       downloadBtOnImg = $("#downloadBtOnImg"),
       installButton = $("#installButton"),
       bufferSpinner = $("#bufferSpinner"),
+      shadowWrapper = $("#shadowWrapper"),
       body = $("body"),
       playButton = $("#playButton"),
       windowHeight = 0,
@@ -31,6 +34,8 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
     }).resize();
 
     $(window).on("orientationchange", function (obj) {
+      $("#gameIconWrapper").stop().fadeTo(1000, 1.0);
+      $("#buttonsWrapper").stop().fadeTo(1000, 1.0);
       $("#atmosPlayer").stop().fadeTo(1000, 1.0);
     });
 
@@ -86,6 +91,27 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       }
     }
 
+    function reduceInstallBtn() {
+      $("#infoButton").animate({height: '7%'}, 
+      {
+       duration: 1000,
+       complete: function(){
+         setTimeout(function() {growInstallBtn();},2000) ;
+      }
+    });
+    }
+
+    function growInstallBtn() {
+      console.log("grow");
+      $("#infoButton").animate({height: '9%'}, 
+      {
+       duration: 700,
+       complete: function(){
+           reduceInstallBtn()
+        }
+      });
+    }
+
     return function atmosViewModel() {
       console.log("atmosViewModel()");
       var self = this;
@@ -115,6 +141,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
       //class declarations
       self.menuWrapperClasses = ko.observableArray();
       self.downloadBtnClasses = ko.observableArray();
+      self.infoBtnClasses = ko.observableArray();
 
       ko.bindingHandlers['class'] = {
         update: function (element, valueAccessor) {
@@ -158,9 +185,9 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
           //openStore();
         } else {
           console.log('StoreClick()');
-          // bufferSpinner.addClass('on');
-          // bufferSpinner.fadeTo(10, 1.0);  
-          // onLandingPageOpen();
+          bufferSpinner.addClass('on');
+          bufferSpinner.fadeTo(10, 1.0);
+          startMenu.remove();
           play();
         }
       };
@@ -185,7 +212,7 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
         
         if (self.opSystem === self.OP_IOS) {
           if (self.game.appStoreLink) {
-            // console.log(logTimer.getTime('gameStart'));
+            console.log(logTimer.getTime('gameStart'));
              console.log("ios");
             window.location.href = self.game.appStoreLink;
           } else {
@@ -194,8 +221,8 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
           }
         } else if (self.opSystem === self.OP_ANDROID) {
           if (self.game.playStoreLink) {
-            // console.log(logTimer.getTime('gameStart'));
-            console.log("android");
+            console.log(logTimer.getTime('gameStart'));
+             console.log("android");
             document.location = self.game.playStoreLink;
           } else {
             //404 error
@@ -206,52 +233,48 @@ define(['knockout', 'jquery', 'hammer', 'gesturehandler', 'animationmanager', 'u
 
 function openEndScreen(){
         console.log("openEndScreen()");
+        hideInfoMenu();
         console.log( $("#endScreenImg").attr('src'));
-        if($("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null'){
-            openStore();
-        }else{    
-            console.log("done");
-            endScreenImg.get(0).style.visibility = 'visible';
-            downloadBtOffImg.css({visibility: 'visible'});
-            $(video).remove();
-            setTimeout(function(){
-              downloadBtOffImg.on('mousedown touchstart', function(event) {
-                console.log('touchstart on off');
-                  downloadBtOnImg.css({visibility: 'visible'});
-                  downloadBtOffImg.css({visibility: 'hidden'});
-              });
-              downloadBtOffImg.on('click', function(event) {
-                console.log('click on off');
-                  openStore();
-              });
-              downloadBtOnImg.on('mouseup touchend click', function(event) {
-                console.log('touchend on on');
-                  openStore();
-              });
+                  if($("#endScreenImg").attr('src').length==0 || $("#endScreenImg").attr('src')=='null'){
+                      openStore();
+                  }else{    
+                      console.log("done");
+                      endScreenImg.get(0).style.visibility = 'visible';
+                      downloadBtOffImg.css({visibility: 'visible'});
+                      $(video).remove();
+                      setTimeout(function(){
+                        downloadBtOffImg.on('mousedown touchstart', function(event) {
+                          console.log('touchstart on off');
+                            downloadBtOnImg.css({visibility: 'visible'});
+                            downloadBtOffImg.css({visibility: 'hidden'});
+                        });
+                        downloadBtOffImg.on('click', function(event) {
+                          console.log('click on off');
+                            openStore();
+                        });
+                        downloadBtOnImg.on('mouseup touchend click', function(event) {
+                          console.log('touchend on on');
+                            openStore();
+                        });
 
-              body.on('mouseup touchend', function(event) {
-                console.log('touchend on body');
-                downloadBtOffImg.css({visibility: 'visible'});
-                downloadBtOnImg.css({visibility: 'hidden'});
-              })
+                        body.on('mouseup touchend', function(event) {
+                          console.log('touchend on body');
+                          downloadBtOffImg.css({visibility: 'visible'});
+                          downloadBtOnImg.css({visibility: 'hidden'});
+                        })
 
-              var endTime = new Date();
-              var timeDiff = endTime - startTime;
-              timeDiff /= 1000;
-              var curtime = video.get(0).currentTime;
-              var duration = video.get(0).duration;
-              var ratio = curtime / duration * 100;
-              eventParameters.isGameStarted = gestureHandler.isVideoStarted();
-              eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
-              eventParameters.gameplayPercentage = Math.round(ratio);
-              mixpanel.track("End screen", eventParameters);
-              if (self.opSystem === self.OP_IOS) {
-                webkit.messageHandlers.video.postMessage("video_did_end_playing");
-              } else {
-                window.PlayableAds.mediationEnd();
-              }          
-        },500);                   
-        }
+                        var endTime = new Date();
+                        var timeDiff = endTime - startTime;
+                        timeDiff /= 1000;
+                        var curtime = video.get(0).currentTime;
+                        var duration = video.get(0).duration;
+                        var ratio = curtime / duration * 100;
+                        eventParameters.isGameStarted = gestureHandler.isVideoStarted();
+                        eventParameters.gameplaySeconds = Math.round(timeDiff % 60);
+                        eventParameters.gameplayPercentage = Math.round(ratio);
+                        mixpanel.track("End screen", eventParameters);          
+                  },500);                   
+                  }
           
         
       }
@@ -260,6 +283,7 @@ function openEndScreen(){
         console.log('showFinishMenu()');
         gestureHandler.disableHammer();
         finishMenu.fadeTo(50, 1.0);
+        shadowWrapper.fadeTo(500, 0.5); 
         setTimeout(function(){
           document.body.addEventListener('click',  function() { openStore();}); 
           document.body.addEventListener('touchstart',  function() { openStore();});       
@@ -292,9 +316,9 @@ function openEndScreen(){
       };
 
       gestureHandler.actualIndex.subscribe(function(e){
-      //  bufferSpinner.removeClass('on');
-      //  bufferSpinner.stop().fadeTo(0, 0.0);
-      //  Doesn't run first time, just when the video has started
+       bufferSpinner.removeClass('on');
+       bufferSpinner.fadeTo(0, 0.0);
+       //Doesn't run first time, just when the video has started
         if (gestureHandler.isVideoStarted() && video.get(0).currentTime * 1000 > 100) {
           
           if(gestureHandler.isPaused()){
@@ -308,7 +332,6 @@ function openEndScreen(){
           reactionSum += (d.getTime()-gestureHandler.handleGestureTime);
           reactionNum++;
           var d = new Date();
-          
           console.log("Reaction Time: " + (d.getTime()-gestureHandler.handleGestureTime) + " Average reaction time: " + reactionSum/reactionNum);
 
           var index = gestureHandler.currentTimerIndex();     
@@ -326,13 +349,6 @@ function openEndScreen(){
 
       //Runs when video is ready to play
       video.get(0).oncanplay = function () {
-          viewDidLoad = true;
-          if (self.opSystem === self.OP_IOS) {
-            webkit.messageHandlers.video.postMessage("video_did_end_loading");
-          } else {
-              window.PlayableAds.mediationEndLoading();
-          }
-          
           console.log('oncanplay()');
           gestureHandler.initHammer();
           if (isAdViewable) {
@@ -340,22 +356,13 @@ function openEndScreen(){
           }
           // document.location = "videoDidLoad://";
 
-          // if(!gestureHandler.isVideoStarted()){
-            // log('Video can play', { 'ms since loaded': logTimer.getTime('loadingStart'), 'game ID': gestureHandler.gameID(), 'Seconds buffered': video.get(0).buffered.end(0)} );
-          // }
+          if(!gestureHandler.isVideoStarted()){
+          }
       };
 
       //Runs when video is playing
-      video.get(0).onplay = function () {            
+      video.get(0).onplay = function () {
         gestureHandler.isPaused(false);
-        console.log("onplay: " + video.get(0).currentTime * 1000);
-        if(!gestureHandler.isVideoStarted()){
-          if (self.opSystem === self.OP_IOS) {
-              webkit.messageHandlers.video.postMessage("video_did_start_playing");
-          } else {
-              window.PlayableAds.mediationStart();
-          }
-        }
         canPlay();
       };
 
@@ -363,21 +370,20 @@ function openEndScreen(){
       function canPlay() {
         console.log('canPlay()');
         if(!gestureHandler.isVideoStarted()){
-          // log('Video is playing', { 'ms to play the video after play click': logTimer.getTime('playClick'), 'Game time': logTimer.getTime('gameStart'), 'game ID': gestureHandler.gameID()} );
         }
 
         if (video.get(0).currentTime * 1000 > 0) {
           //Runs on the very first gesture, sets the first timeout till the first attack time
           if (gestureHandler.currentGestureIndex() === 0 && gestureHandler.isVideoStarted() === false) {
             hidePlayMenu();
-            video.get(0).pause();
-            //console.log('set Timeout till first attack: ' + logTimer.getTime('loadingStart'));
+            showInfoMenu();
+            console.log('set Timeout till first attack: ' + logTimer.getTime('loadingStart'));
             
             var index = gestureHandler.currentTimerIndex();
             console.log("INDEX :" + index)
             gestureHandler.setTimerForIndex(index);
             gestureHandler.isVideoStarted(true);
-            //gestureHandler.preloadGestureImage(gestureHandler.gestures()[0][0]);            
+            //gestureHandler.preloadGestureImage(gestureHandler.gestures()[0][0]);
           }; 
         } else {
           setTimeout(canPlay, 100);
@@ -387,6 +393,8 @@ function openEndScreen(){
       video.get(0).onended = function () {
         gestureHandler.isVideoCompleted(true);
         openEndScreen();
+        //openStore();
+        hideInfoMenu();
         bgMusicPlayer.get(0).pause();
         $("#starterImg").css({
           'pointer-events': 'all'
@@ -464,8 +472,8 @@ function openEndScreen(){
         }
 
         initGestureHandler();
+        showStartMenu();
         initMenu();
-        video.get(0).play();
       };
 
       function getSizeForResoultion() {
@@ -496,6 +504,7 @@ function openEndScreen(){
 
       function initGestureHandler() {
         gestureHandler.hideAnimation = animationManager.hideAnimation;
+        gestureHandler.showInfoMenu = showInfoMenu;
         gestureHandler.initMenu = initMenu;
         gestureHandler.orientation = self.orientation;
         gestureHandler.openStore = openStore;
@@ -522,9 +531,23 @@ function openEndScreen(){
         newFrameElm.parentNode.removeChild(newFrameElm);
     }
 
+      function showStartMenu() {
+        console.log("showStartMenu()");
+        
+        didFinishLoad();
+        
+        $('#starterWrapper').fadeTo(10, 0.0);
+        shadowWrapper.fadeTo(500, 0.5);
+        gameTitle.get(0).innerHTML = self.game.title;
+        gameSubTitle.get(0).innerHTML = self.game.subTitle;
+        // finishMessage.get(0).innerHTML = self.game.finishMessage
+        startMenu.fadeTo(500, 1.0);
+      }
+
       function hidePlayMenu() {
-        // bufferSpinner.removeClass('on');
-        // bufferSpinner.stop().fadeTo(0, 0.0);
+        shadowWrapper.fadeTo(50, 0);
+        bufferSpinner.removeClass('on');
+        bufferSpinner.stop().fadeTo(0, 0.0);
         $("#starterImg").remove();
       }
 
@@ -533,6 +556,7 @@ function openEndScreen(){
         isMenuOpen = false;
         var menuWrapperCSS = ["inactive"];
         var downloadBtnCSS = ["inactive"];
+        var infBtnCSS = ["inactive"];
 
         if (self.orientation === 0) {
 
@@ -544,41 +568,75 @@ function openEndScreen(){
           // });
 
           menuWrapperCSS.push("landscape");
+          infBtnCSS.push("landscape");
  
           downloadBtnCSS.push("landscape");
+          $("#buttonsWrapper").push("landscape");
 
           if (self.game.menuPos === "bottomright") {
             menuWrapperCSS.push("bottom bottomTransform");
             downloadBtnCSS.push("top");
+            infBtnCSS.push("bottomLendscape leftLandscape");
           } else if (self.game.menuPos === "bottomleft") {
             menuWrapperCSS.push("top bottomTransform");
             downloadBtnCSS.push("bottom");
+            infBtnCSS.push("topLandscape leftLandscape");
           } else if (self.game.menuPos === "topright") {
             menuWrapperCSS.push("bottom bottomTransform");
             downloadBtnCSS.push("top");
+            infBtnCSS.push("bottomLandscape rightLandscape");
           } else if (self.game.menuPos === "topleft") {
             menuWrapperCSS.push("top bottomTransform");
             downloadBtnCSS.push("top");
+            infBtnCSS.push("topLandscape rightLandscape");
           }
 
         } else if (self.orientation === 1) {
           if (self.game.menuPos === "bottomright") {
             menuWrapperCSS.push("bottom");
             downloadBtnCSS.push("bottom");
+            infBtnCSS.push("bottom right");
           } else if (self.game.menuPos === "bottomleft") {
             menuWrapperCSS.push("bottom");
             downloadBtnCSS.push("bottom");
+            infBtnCSS.push("bottom left");
           } else if (self.game.menuPos === "topright") {
             menuWrapperCSS.push("top");
             downloadBtnCSS.push("top");
+            infBtnCSS.push("top right");
           } else if (self.game.menuPos === "topleft") {
             menuWrapperCSS.push("top");
             downloadBtnCSS.push("top");
+            infBtnCSS.push("top left");
           }
         }
 
         self.menuWrapperClasses(menuWrapperCSS);
         self.downloadBtnClasses(downloadBtnCSS);
+        self.infoBtnClasses(infBtnCSS);
+      }
+
+      var showInfoMenu = function () {
+        $("#infoButton").fadeTo(500, 1.0);
+        growInstallBtn();
+        $("#menuWrapper").stop().fadeTo(500, 0.0);
+        $("#infoButton").css({
+          'pointer-events': 'auto'
+        });
+        $("#menuWrapper").css({
+          'pointer-events': 'auto'
+        });
+      }
+
+      function hideInfoMenu() {
+        $("#infoButton").stop().fadeTo(500, 0.0);
+        $("#menuWrapper").stop().fadeTo(500, 0.0);
+        $("#infoButton").css({
+          'pointer-events': 'none'
+        });
+        $("#menuWrapper").css({
+          'pointer-events': 'none'
+        });
       }
 
       function handleOrientation() {
@@ -587,7 +645,10 @@ function openEndScreen(){
         globalOrientation = self.game.orientation;
         if (self.orientation === 0) {
           video.addClass('landscape');
+          startMenu.addClass('landscape');
           // finishMenu.addClass('landscape');
+          $("#gameIconWrapper").addClass('landscape');
+          $("#buttonsWrapper").addClass('landscape');
           $("#storeButtonDiv").addClass('landscape');
           $("#installButtonDiv").addClass('landscape');
           $("#endScreenImg").addClass('landscape');

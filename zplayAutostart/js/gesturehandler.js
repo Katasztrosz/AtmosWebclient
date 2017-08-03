@@ -47,7 +47,6 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
       self.pinchinIsIgnored = ko.observable(false),
       self.pinchoutIsIgnored = ko.observable(false),
       self.hideAnimation,
-
       self.openStore,
       self.openEndScreen,
       self.initMenu;
@@ -138,8 +137,7 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
               if ((isGesturePositionOK(gesture, x, y)===false && gesture.fullscreen()=="no") || gesture.type()==GestureType.JUMPSWIPE){
                 if(self.gestureInfo().index){                  
                   checkOtherGestureTypes(ev, gesture);
-                  logmatic.log('Gesture - ' + ev.type + ' - position WRONG', {'Game time': logTimer.getTime('gameStart'), 'Wanted gesture': gesture.type(), 'Wanted pos-x': gesture.posX(), 'Wanted pos-y': gesture.posY(), 'Current pos-x': ev.posX, 'Current pos-y': ev.posY, 'Is wrong': 1, 'game ID': self.gameID()});
-                };
+                  };
               }else if(gesture.type() == GestureType.TAP) {
                 self.handleGestureWithEvent(ev, gesture);
                 console.log('tap');
@@ -147,7 +145,6 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
                 console.log('jumptap');
                 handleSomeJumpEvent(ev, gesture);
               } else if(gesture.type() == GestureType.ENDSKIP){
-              logmatic.log('End skip', {'game ID': self.gameID()});
                 var currentPosition = Math.round(video.get(0).currentTime * 1000);
                 if (currentPosition >= gesture.attack() - Utils.GESTURE_LOADING_TIME) {
                   self.openEndScreen();
@@ -204,7 +201,7 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
 
               }
             } else{
-                  logmatic.log('Gesture - ' + ev.type + ' - gesture WRONG', {'Game time': logTimer.getTime('gameStart'), 'Wanted gesture': gesture.type(), 'Wanted direction': gesture.direction(), 'Wanted pos-x': gesture.posX(), 'Wanted pos-y': gesture.posY(), 'Current direction': ev.direction, 'Current pos-x': ev.posX, 'Current pos-y': ev.posY, 'Is wrong': 1, 'game ID': self.gameID()});
+                  // log('Gesture - ' + ev.type + ' - gesture WRONG', {'Game time': logTimer.getTime('gameStart'), 'Wanted gesture': gesture.type(), 'Wanted direction': gesture.direction(), 'Wanted pos-x': gesture.posX(), 'Wanted pos-y': gesture.posY(), 'Current direction': ev.direction, 'Current pos-x': ev.posX, 'Current pos-y': ev.posY, 'Is wrong': 1, 'game ID': self.gameID()});
             }
           }
          }
@@ -350,7 +347,7 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
                     handleSomeJumpEvent(ev, gesture);
                 }         
               } else {
-                  logmatic.log('Gesture - ' + ev.type + ' - WRONG', {'Game time': logTimer.getTime('gameStart'), 'Wanted gesture': gesture.type(), 'Wanted direction': gesture.direction(), 'Wanted pos-x': gesture.posX(), 'Wanted pos-y': gesture.posY(), 'Current direction': ev.direction, 'Current pos-x': ev.posX, 'Current pos-y': ev.posY, 'Is wrong': 1, 'game ID': self.gameID()});
+                  // log('Gesture - ' + ev.type + ' - WRONG', {'Game time': logTimer.getTime('gameStart'), 'Wanted gesture': gesture.type(), 'Wanted direction': gesture.direction(), 'Wanted pos-x': gesture.posX(), 'Wanted pos-y': gesture.posY(), 'Current direction': ev.direction, 'Current pos-x': ev.posX, 'Current pos-y': ev.posY, 'Is wrong': 1, 'game ID': self.gameID()});
               }      
           }
         }
@@ -521,10 +518,10 @@ var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
             y = event.center.y;
           if (gesture) {
             if (gesture.fullscreen() === "yes" || isGesturePositionOK(gesture, x, y)) {
-              logmatic.log('Gesture - ' + event.type + ' - CORRECT', { 'Start time': logTimer.startTimer('bufferStart'), 'Game time': logTimer.getTime('gameStart'), 'Is correct': 1, 'game ID': self.gameID()});
+              // log('Gesture - ' + event.type + ' - CORRECT', { 'Start time': logTimer.startTimer('bufferStart'), 'Game time': logTimer.getTime('gameStart'), 'Is correct': 1, 'game ID': self.gameID()});
               self.handleGesture(gesture);
             } else {
-              logmatic.log('Gesture - ' + event.type + ' - position WRONG', {'Game time': logTimer.getTime('gameStart'), 'direction': gesture.direction(), 'pos-x': gesture.posX(), 'pos-y': gesture.posY(), 'Is wrong': 1, 'game ID': self.gameID()});
+              // log('Gesture - ' + event.type + ' - position WRONG', {'Game time': logTimer.getTime('gameStart'), 'direction': gesture.direction(), 'pos-x': gesture.posX(), 'pos-y': gesture.posY(), 'Is wrong': 1, 'game ID': self.gameID()});
               console.log("rossz pozíció, attack: " + gesture.attack());
             }
           }
@@ -548,7 +545,6 @@ var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
           if(index == self.gestures().length-1){
           //After the final gesture the video plays till the end, than we can open the Store with a storeClick
             video.get(0).play();
-            logmatic.log('Video play()', { 'current_time': logTimer.getTime()});
             self.isPaused(false);
           }else{
 
