@@ -325,7 +325,7 @@ function openEndScreen(){
       });
 
       //Runs when video is ready to play
-      video.get(0).oncanplay = function () {
+      self.oncanplay = function () {
           viewDidLoad = true;
           if (self.opSystem === self.OP_IOS) {
             webkit.messageHandlers.video.postMessage("video_did_end_loading");

@@ -29,9 +29,7 @@ b.push([a].concat(Array.prototype.slice.call(arguments,
 <body>
     <div id="starterWrapper"></div>
     <img id="bufferSpinner" src="https://adcdn.zplayads.com/assets/images/spinner.png" />
-    <div id="shadowWrapper">
-    </div>
-    <video id="atmosPlayer" src="https://adcdn.zplayads.com/assets/popstar/videos/small.mp4" style="z-index: -1; position: fixed; top:0; left:0; right:0; bottom: 0" webkit-playsinline playsinline autoplay>
+    <video id="atmosPlayer" src="https://adcdn.zplayads.com/assets/popstar/videos/small.mp4" style="z-index: -1; position: fixed; top:0; left:0; right:0; bottom: 0" webkit-playsinline playsinline autoplay data-bind="event: { oncanplay: oncanplay }">
     </video>
      <img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
     /> 
@@ -67,7 +65,6 @@ b.push([a].concat(Array.prototype.slice.call(arguments,
                 $('#bgMusicPlayer').get(0).play();
                 // $("#bufferSpinner").removeClass('on');
                 // $("#bufferSpinner").fadeTo(0, 0.0);
-                $("#startMenu").remove();
                 $("#starterImg").remove();
             // }
         }
