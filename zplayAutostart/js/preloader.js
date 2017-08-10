@@ -13,7 +13,8 @@ define(['jquery', 'utils'],
         var gameid = getUrlParameter('gameid') ? getUrlParameter('gameid') : gameIdentifier;
         // gameIdentifier is set in atmos.html
         
-        $.getJSON(Utils.BASE_URL + gameid, function (allData) {            
+        $.getJSON(Utils.BASE_URL + gameid, function (allData) {     
+             
             starterImg.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/load.jpg";
             loadSrc("small", allData);              
 
@@ -53,6 +54,8 @@ define(['jquery', 'utils'],
              console.log("Video source loaded: " + video.get(0).src);
              video.get(0).pause();               //pauses autoplay video
              console.log("autoplay is paused");
+            
+
             //  bgMusicPlayer.get(0).src = Utils.VIDEO_BASE_URL + allData.shortTitle + "/sound/bg.mp3";
              deferred.resolve(allData);
         };

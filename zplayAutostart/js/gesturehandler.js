@@ -50,6 +50,7 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
       self.openStore,
       self.openEndScreen,
       self.initMenu;
+      self.userGuideTextId = 0;
 
     self.initHammer = function () {
       console.log("initHammer()");
@@ -498,7 +499,7 @@ define('gesturehandler', ['knockout', 'jquery', 'hammer', 'utils', 'gestureinfo'
       //Checks if events position(_x, _y) is in the gestures postions given range
       function isGesturePositionOK(gesture, _x, _y) {
 
-var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
+        var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
           y = (self.orientation === 0 && (windowWidth < windowHeight)) ? _x : _y,
           gestSizeFaktor = gesture.gestSize() / 100,
           xFaktor = gesture.posX() / 100,
@@ -537,7 +538,7 @@ var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
       console.log("handelGesture()");
         if (gesture && self.gestureInfo().gesture()) {
           // console.log("handle gesture attack: " + gesture.attack());
-
+          $("#handIconDiv").hide(); 
           self.disableHammer();                                                  //Disables gestures till new attack time
           self.isTimeoutFinished(false);
           var index = self.gestureInfo().index();
@@ -620,6 +621,7 @@ var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
           video.get(0).pause();
           self.isPaused(true);
           console.log('video is paused');
+          self.showUserGuide(index);
         }, timeout);
       };
 
@@ -653,6 +655,85 @@ var x = (self.orientation === 0 && (windowWidth < windowHeight)) ? _y : _x,
               }
         }
       };
+
+      self.showUserGuide = function (index) {
+
+        if(index==0){
+          $("#userGuideWindow").css('visibility', 'visible');
+          
+          if(self.orientation == 1){
+            $("#userGuideWindow").addClass('pulseAnimation');
+          }else{
+            $("#userGuideWindow").addClass('pulseAnimationLandscape');
+          }
+
+          self.disableHammer();
+          changeUserGuideText();
+
+         $('body').one('click touchstart',  function() { 
+                    $("#userGuideWindow").remove(); 
+                    self.enableHammer();
+                    showUserGuideAnimation(index); 
+                }); 
+                    
+        }else {
+          showUserGuideAnimation(index); 
+        }
+
+
+      };
+
+    function changeUserGuideText() {
+
+       switch (self.userGuideTextId) {
+            case 0:  $("#userGuideText").html("This is a MINIGAME you can PLAY IT!");           
+                     self.userGuideTextId++;           
+                     break;
+            case 1:  $("#userGuideText").html("TAP HERE!");
+                     self.userGuideTextId++; 
+                     break;
+            case 2:  $("#userGuideText").html("TAP the screen to play this MINIGAME");
+                    self.userGuideTextId = 0; 
+                            break;
+        }
+        setTimeout(function() {
+              changeUserGuideText()
+              }, 4000);
+    }
+
+    function showUserGuideAnimation(index) {
+      var actualGesture = self.gestures()[index][0];
+      console.log(actualGesture)
+
+      $("#handIconDiv").show(); 
+      if(self.orientation==1){
+        $("#handIconDiv").css({top: actualGesture.posY()+'%', left: actualGesture.posX()+'%'});
+      }else {
+        $("#handIconDiv").css({left: 100-actualGesture.posY()+'%', top: actualGesture.posX()+'%'});
+      }
+      if(actualGesture.type() == GestureType.TAP || actualGesture.type() == GestureType.JUMPTAP || actualGesture.type() == GestureType.ENDSKIP){
+
+        $("#handIconDiv").removeClass("verticalSwipeAnimation");
+        $("#handIconDiv").removeClass("horizontalSwipeAnimation");
+        $("#handIconDiv").addClass("tapAnimation");
+
+      }else if(actualGesture.type() == GestureType.SWIPE || actualGesture.type() == GestureType.JUMPSWIPE){
+
+        var actualDirection = actualGesture.direction();
+
+        $("#handIconDiv").removeClass("tapAnimation");
+
+        if((self.orientation == 1 && (actualDirection == 270 || actualDirection == 90 || actualDirection == 200)) || (self.orientation == 0 && (actualDirection == 0 || actualDirection == 180 || actualDirection == 100))){
+            $("#handIconDiv").removeClass("verticalSwipeAnimation");
+            $("#handIconDiv").addClass("horizontalSwipeAnimation");
+        }else{
+            $("#handIconDiv").removeClass("horizontalSwipeAnimation");
+            $("#handIconDiv").addClass("verticalSwipeAnimation");
+        }
+      }
+
+    }
+
 
 //       self.preloadGestureImage = function (gesture) {
 //         var gestSrc,

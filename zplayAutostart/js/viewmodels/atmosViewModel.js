@@ -590,6 +590,7 @@ function openEndScreen(){
         if (self.orientation === 0) {
           video.addClass('landscape');
           // finishMenu.addClass('landscape');
+          $("#handIcon").addClass('landscape');
           $("#storeButtonDiv").addClass('landscape');
           $("#installButtonDiv").addClass('landscape');
           // $("#endScreenImg").addClass('landscape');

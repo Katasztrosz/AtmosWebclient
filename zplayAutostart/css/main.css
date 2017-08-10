@@ -267,10 +267,12 @@ body {
   height: 100%;
 }
 
-#startMenu {
+#userGuideWindow {
+  display: inline-block;
   margin: auto;
-  width: 310px;
-  height: 170px;
+  visibility: hidden;
+  width: 80%;
+  height: 25%;
   z-index: 99999;
   top: 0;
   left: 0;
@@ -278,13 +280,125 @@ body {
   bottom: 0;
   position: fixed;
   pointer-events: none;
-  background-color: #fff;
+  background-color: orange;
   border-radius: 15px;
 }
 
-#startMenu.landscape {
-  transform : rotate(90deg);
+#userGuideWindow.pulseAnimation {
+  animation-name: userGuideWindowPulse;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
 }
+
+#userGuideWindow.pulseAnimationLandscape {
+  animation-name: userGuideWindowPulseLandscape;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes userGuideWindowPulse {
+    0%   {transform: scale(1); opacity: 1.0}
+    50%  {transform: scale(1.2); opacity: 0.8}
+    100% {transform: scale(1); opacity: 1.0}
+} 
+
+@keyframes userGuideWindowPulseLandscape {
+    0%   {transform: scale(1) rotate(90deg); opacity: 1.0}
+    50%  {transform: scale(1.2) rotate(90deg); opacity: 0.8}
+    100% {transform: scale(1) rotate(90deg); opacity: 1.0}
+} 
+
+ #userGuideText {
+  position: relative;
+  margin-top: 20%;
+  margin-bottom: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Helvetica Neue', 'Roboto', helvetica, sans-serif;
+  color: white;
+  word-wrap: break-word;
+  min-height: 1.3em;
+  max-height: 2.6em;
+}
+
+#handIconDiv {
+  display: none;  
+  width: 100px;
+  z-index: 99999;
+  position: fixed;
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+#handIcon {
+  width: 100%;
+  margin-top: -60px;
+  margin-left: -90px;
+}
+
+#handIcon.landscape {
+  transform : rotate(90deg);
+  margin-top: -40px;
+  margin-left: -90px;
+}
+
+#handIconDiv.tapAnimation {
+  animation-name: handIconTapAnimation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+#handIconDiv.horizontalSwipeAnimation {
+  animation-name: handIconHorizontalSwipeAnimation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+#handIconDiv.verticalSwipeAnimation {
+  animation-name: handIconVerticalSwipeAnimation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes handIconTapAnimation {
+    0%   {transform: scale(1);}
+    50%  {transform: scale(1.2);}
+    100% {transform: scale(1);}
+} 
+
+/* @keyframes handIconTapAnimationLandscape {
+    0%   {transform: scale(1) rotate(90deg);}
+    50%  {transform: scale(1.2) rotate(90deg);}
+    100% {transform: scale(1) rotate(90deg);}
+}  */
+
+@keyframes handIconHorizontalSwipeAnimation {
+    0%   {transform: translateX(35px)}
+    50%  {transform: translateX(-35px)}
+    100% {transform: translateX(35px)}
+} 
+
+/* @keyframes handIconHorizontalSwipeAnimationLandscape {
+    0%   {transform: translateX(35px) rotate(90deg)}
+    50%  {transform: translateX(-35px) rotate(90deg)}
+    100% {transform: translateX(35px) rotate(90deg)}
+}  */
+
+@keyframes handIconVerticalSwipeAnimation {
+    0%   {transform: translateY(35px)}
+    50%  {transform: translateY(-35px)}
+    100% {transform: translateY(35px)}
+} 
+
+/* @keyframes handIconVerticalSwipeAnimationLandscape {
+    0%   {transform: translateY(35px) rotate(90deg)}
+    50%  {transform: translateY(-35px) rotate(90deg)}
+    100% {transform: translateY(35px) rotate(90deg)}
+}  */
 
 
 #gameIcon {

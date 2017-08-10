@@ -2,14 +2,10 @@
 <html>
 
 <head>
-	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-	<title>Atmos</title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 	<meta charset="utf-8" />
-
-	<script data-main="js/atmos" src="js/libraries/require.js"></script>
-	<link rel="stylesheet" type="text/css" href="./css/main.css">
-
-	<!-- start Mixpanel -->
+    <title>Atmos</title>
+    <!-- start Mixpanel -->
     <script type="text/javascript">
         (function (e, a) {
             if (!a.__SV) {
@@ -21,44 +17,63 @@ b.push([a].concat(Array.prototype.slice.call(arguments,
                         }
                     } var d = a; "undefined" !== typeof f ? d = a[f] = [] : f = "mixpanel"; d.people = d.people || []; d.toString = function (b) { var a = "mixpanel"; "mixpanel" !== f && (a += "." + f); b || (a += " (stub)"); return a }; d.people.toString = function () { return d.toString(1) + ".people (stub)" }; k = "disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
                     for (h = 0; h < k.length; h++)e(d, k[h]); a._i.push([b, c, f])
-                }; a.__SV = 1.2; b = e.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === e.location.protocol && "https://zplayads-cdn.oss-cn-beijing.aliyuncs.com/engine/mixpanel.js"; c = e.getElementsByTagName("script")[0]; c.parentNode.insertBefore(b, c)            
+                }; a.__SV = 1.2; b = e.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === e.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; c = e.getElementsByTagName("script")[0]; c.parentNode.insertBefore(b, c)            
 }        
 })(document, window.mixpanel || []);
-
-mixpanel.init("122044420a86af7884d2ec3abc1b404f"); //You should replace this token with yours... 
-</script>
-	<!-- end Mixpanel -->
-
+        mixpanel.init("07cf237a2bc80afcc7d31087db5cf5b2");
+    </script>
+    <!-- end Mixpanel -->
+    <link rel="stylesheet" type="text/css" href="https://s3-us-west-2.amazonaws.com/atmosplay.com/webclient/zplayTest/main.min.css">
 </head>
 
 <body>
     <div id="starterWrapper"></div>
     <img id="bufferSpinner" src="https://adcdn.zplayads.com/assets/images/spinner.png" />
-    <video id="atmosPlayer" src="https://adcdn.zplayads.com/assets/gardenscapesshort/videos/small.mp4" style="z-index: -1; position: fixed; top:0; left:0; right:0; bottom: 0" webkit-playsinline playsinline autoplay data-bind="event: { oncanplay: oncanplay }">
+    <!-- <div id="startMenu">
+        <p id="gameTitle"></p>
+        <p id="subTitle"></p>
+        <p id="playButton">开始</p>
+    </div> -->
+
+    <!--<div id="finishMenu">
+        <p id="finishMessage">Completed!</p>
+        <p id="downloadButton">Install</p>
+    </div>-->
+    <!--<div id="rotateMenu">
+        <p id="rotateMessage">Please rotate your device to continue</p>
+    </div>-->
+
+    <div id="shadowWrapper">
+    </div>
+    <!-- <img id="infoButton" src="https://adcdn.zplayads.com/assets/images/install_now.png" data-bind="click: openMenuClick,class:infoBtnClasses"
+    /> -->
+    <video id="atmosPlayer" src="https://adcdn.zplayads.com/assets/candycrushsodasaga/videos/small.mp4" style="z-index: -1; position: fixed; top:0; left:0; right:0; bottom: 0" webkit-playsinline playsinline autoplay>
     </video>
-     <img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
-    /> 
-    <img id="endScreenImg" style="visibility:hidden" />
-    <img id="downloadBtOffImg" style="visibility:hidden" />
-    <img id="downloadBtOnImg" style="visibility:hidden" />
-    
+    <img id="starterImg" data-bind="click: storeClick" style="position: fixed;top: 0;bottom: 0;left: 0;right: 0;max-width: 100%;max-height: 100%;margin: auto;overflow: auto;"
+    />
+
+        
     <div id="userGuideWindow">
 		<p id="userGuideText"></p>
     </div>
 
     <div id="handIconDiv">
-		<img id="handIcon" src="https://s3-us-west-2.amazonaws.com/atmosplay.com/webclient/assets/images/hand.png"/>
+		<img id="handIcon" src="https://s3-us-west-2.amazonaws.com/atmosplay.com/webclient/assets/images/hand_shadow.png"/>
     </div>
 
+    <img id="endScreenImg" style="visibility:hidden" />
+    <img id="downloadBtOffImg" style="visibility:hidden" />
+    <img id="downloadBtOnImg" style="visibility:hidden" />
     <audio id="bgMusicPlayer" type="audio/mpeg" loop></audio>
+    <script src="https://s3-us-west-2.amazonaws.com/atmosplay.com/webclient/zplayTest/atmos.min.js"></script>
     <script>
-        // var endPic = "https://s3-us-west-2.amazonaws.com/atmosplay/popstar/endscreen.jpg";
+        // var endPic = "https://s3-us-west-2.amazonaws.com/atmosplay/beatracer/endscreen.jpg";
         var downloadBtOff = "https://adcdn.zplayads.com/assets/images/download-off.png";
         var downloadBtOn = "https://adcdn.zplayads.com/assets/images/download-on.png";
 
         // var atmosVideoUrl = "";
-        var clickUrl = "https://itunes.apple.com/cn/app/popstar!-xiao-mie-xing-xing/id834878585?ls=1&mt=8"; // Replace it with your tracking link
-        var gameIdentifier = "329";
+        var clickUrl = "https://itunes.apple.com/us/app/beat-racer/id1058786785?mt=8"; // Replace it with your tracking link
+        var gameIdentifier = "339";
         var eventParameters = {
             parameter1: "value1",
             parameter2: "value2"
@@ -78,6 +93,7 @@ mixpanel.init("122044420a86af7884d2ec3abc1b404f"); //You should replace this tok
                 $('#bgMusicPlayer').get(0).play();
                 // $("#bufferSpinner").removeClass('on');
                 // $("#bufferSpinner").fadeTo(0, 0.0);
+                $("#startMenu").remove();
                 $("#starterImg").remove();
             // }
         }
